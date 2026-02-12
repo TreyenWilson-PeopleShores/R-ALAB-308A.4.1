@@ -11,7 +11,8 @@ const progressBar = document.getElementById("progressBar");
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 
 // Step 0: Store your API key here for reference and easy access.
-const API_KEY = "";
+const API_KEY =
+  "live_VOZbbd602q8H85w6A0laOJiAuJk7unXGEE8KYq3i9HNimRuFc7xzkIxA5sAOE71";
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -21,6 +22,11 @@ const API_KEY = "";
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
+async function initialLoad() {
+  let test = await fetch(API_KEY);
+  console.log(test);
+}
+initialLoad();
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
