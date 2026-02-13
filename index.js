@@ -52,7 +52,33 @@ async function initialLoad() {
 }
 
 initialLoad(); // runs the Breed selection
+async function initalImage(){
+  let selectedBreedId = breedSelection.value;
+  let response = await fetch("https://api.thecatapi.com/v1/breeds", {
+    headers: {
+      "x-api-key": API_KEY,
+    },
+  });
+  let breeds = await response.json();
+  let selectedBreed = breeds[0]
 
+
+    let responseImage = await fetch(`https://api.thecatapi.com/v1/images/${selectedBreed.reference_image_id}`, {
+    headers: {
+      "x-api-key": API_KEY,
+    },
+  });
+  let image = await responseImage.json();
+  let imageUrl = image.url;
+    //Carousel.createCarouselItem(selectedBreed.reference_image_id, selectedBreed.name, selectedBreed.id);
+    Carousel.clear();
+    Carousel.appendCarousel(Carousel.createCarouselItem(imageUrl, selectedBreed.name, selectedBreed.id));
+    Carousel.start();
+    document.getElementById("infoDump").innerHTML = `<h4> ${selectedBreed.name}</h4><p><b> Grooming:</b> ${selectedBreed.grooming}</p><p> <b>Temperament:</b> ${selectedBreed.temperament}</p><p> <b>Health Issues:</b> ${selectedBreed.health_issues}</p><p><b> Life Span: </b>${selectedBreed.life_span}</p>`;
+   console.log(selectedBreed);
+
+}
+initalImage()
 /**
  * 2. Create an event handler for breedSelect that does the following:
  * - Retrieve information on the selected breed from the cat API using fetch().
@@ -96,9 +122,10 @@ breedSelection.addEventListener("change", async function(){
   let image = await responseImage.json();
   let imageUrl = image.url;
     //Carousel.createCarouselItem(selectedBreed.reference_image_id, selectedBreed.name, selectedBreed.id);
+    Carousel.clear();
     Carousel.appendCarousel(Carousel.createCarouselItem(imageUrl, selectedBreed.name, selectedBreed.id));
     Carousel.start();
-    document.getElementById("infoDump").innerHTML += `<h4> ${selectedBreed.name}</h4><p><b> Grooming:</b> ${selectedBreed.grooming}</p><p> <b>Temperament:</b> ${selectedBreed.temperament}</p><p> <b>Health Issues:</b> ${selectedBreed.health_issues}</p><p><b> Life Span: </b>${selectedBreed.life_span}</p>`;
+    document.getElementById("infoDump").innerHTML = `<h4> ${selectedBreed.name}</h4><p><b> Grooming:</b> ${selectedBreed.grooming}</p><p> <b>Temperament:</b> ${selectedBreed.temperament}</p><p> <b>Health Issues:</b> ${selectedBreed.health_issues}</p><p><b> Life Span: </b>${selectedBreed.life_span}</p>`;
    console.log(selectedBreed);
 
 })
