@@ -23,27 +23,37 @@ const API_KEY =
  * This function should execute immediately.
  */
 let breedSelection = document.getElementById("breedSelect");
-let test = document.createElement("option");
-breedSelection.appendChild(test);
-async function initialLoad() {
-  let beng = await fetch("https://api.thecatapi.com/v1/breeds/beng", {
-    headers: {
-      "x-api-key": API_KEY,
-    },
-  });
-  let abys = await fetch("https://api.thecatapi.com/v1/breeds/abys", {
-    headers: {
-      "x-api-key": API_KEY,
-    },
-  });
-  console.log(abys);
+let options = document.createElement("option");
+//options.append.textContent = "WORKING";
+//options.append.value = "test_id";
+//breedSelection.appendChild(options);
 
-let awir = await fetch("https://api.thecatapi.com/v1/breeds/beng", {
+async function initialLoad() {
+  let response = await fetch("https://api.thecatapi.com/v1/breeds", {
     headers: {
       "x-api-key": API_KEY,
     },
   });
-  console.log(awir, beng, abys);
+  let breeds = await response.json()
+  let allBreeds = breeds; // This is so we don't have to call the API so many times
+  console.log(breeds[breeds.length-1])
+
+//breeds
+for (let breed = 0; breed<allBreeds.length; breed++){
+  let options = document.createElement("option");
+
+  options.textContent = allBreeds[breed].name;
+  options.value = allBreeds[breed].id;
+  breedSelection.appendChild(options)
+}
+
+/*.forEach(function (breeds){
+  
+  options.textContent = breeds.name;
+  options.value = breeds.id;
+  breedSelection.appendChild(options)
+}) */
+console.log(options)
 }
 
 initialLoad();
