@@ -36,27 +36,22 @@ async function initialLoad() {
   });
   let breeds = await response.json()
   let allBreeds = breeds; // This is so we don't have to call the API so many times
-  console.log(breeds[breeds.length-1])
 
 //breeds
-for (let breed = 0; breed<allBreeds.length; breed++){
-  let options = document.createElement("option");
 
-  options.textContent = allBreeds[breed].name;
-  options.value = allBreeds[breed].id;
-  breedSelection.appendChild(options)
+  for (let breed = 0; breed<allBreeds.length; breed++){
+    let options = document.createElement("option");
+
+    options.textContent = allBreeds[breed].name;
+    options.value = allBreeds[breed].id;
+    
+    breedSelection.appendChild(options)
+  }
+
+
 }
 
-/*.forEach(function (breeds){
-  
-  options.textContent = breeds.name;
-  options.value = breeds.id;
-  breedSelection.appendChild(options)
-}) */
-//console.log(options)
-}
-
-initialLoad();
+initialLoad(); // runs the Breed selection
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
@@ -72,6 +67,28 @@ initialLoad();
  * - Each new selection should clear, re-populate, and restart the Carousel.
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
+
+
+
+breedSelection.addEventListener("change", async function(){
+  let selectedBreedId = breedSelection.value;
+  let response = await fetch("https://api.thecatapi.com/v1/breeds", {
+    headers: {
+      "x-api-key": API_KEY,
+    },
+  });;
+  let breeds = await response.json();
+  let selectedBreed;
+  for (let breed of breeds){
+    breed.id
+    if (breed.id === selectedBreedId){
+      selectedBreed = breed;
+      break;
+    }
+    
+  }
+    console.log(selectedBreed);
+})
 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
